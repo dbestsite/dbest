@@ -89,7 +89,23 @@
   </footer>
 
 
-  
+  <script>
+  // Disable long-press for mobile and prevent other download tricks
+  document.addEventListener('DOMContentLoaded', () => {
+    const video = document.querySelector('video');
+
+    // Prevent right-click context menu
+    video.addEventListener('contextmenu', e => e.preventDefault());
+
+    // Prevent dragging the video
+    video.setAttribute('draggable', 'false');
+
+    // Prevent long-press on touch devices
+    video.addEventListener('touchstart', e => {
+      if (e.touches.length > 1) e.preventDefault();
+    });
+  });
+</script>
 
 </body>
 </html>
