@@ -4,18 +4,63 @@ document.addEventListener("DOMContentLoaded", () => {
   const searchInput = document.getElementById("searchInput");
   const tagFilter = document.getElementById("tagFilter");
 
+<<<<<<< HEAD
+document.addEventListener("DOMContentLoaded", () => {
+  const gallery = document.getElementById("videoGallery");
+=======
   fetch("video.json")
     .then(res => res.json())
     .then(videos => {
       displayVideos(videos);
       buildTagCloud(videos);
+>>>>>>> 19cc5c75138907d4c62a9360b645ad5de8ebbcf7
 
+<<<<<<< HEAD
+  fetch("video.json")
+    .then(res => res.json())
+    .then(videos => {
+      videos.reverse().forEach(video => {
+        const card = document.createElement("div");
+        card.className = "video-card";
+        card.innerHTML = `
+          <a href="post.html?video=${video.id}">
+            <img src="${video.thumbnail}" alt="${video.title}" />
+            <h3>${video.title}</h3>
+          </a>
+        `;
+        gallery.appendChild(card);
+      });
+    });
+});
+
+
+function renderVideos(videos) {
+  const container = document.getElementById("videoGallery");
+  container.innerHTML = "";
+  videos.forEach((video, index) => {
+    const id = `video_${index}`;
+    const card = document.createElement("div");
+    card.className = "video-card";
+    card.setAttribute("data-title", video.title);
+    card.setAttribute("data-tag", video.tag);
+    card.innerHTML = `
+      <h3>${video.title}</h3>
+      <video-js id="${id}" class="video-js vjs-default-skin" controls preload="auto" width="640" height="264" poster="">
+        <source src="${video.src}" type="application/x-mpegURL" />
+      </video-js>
+    `;
+    container.appendChild(card);
+    videojs(document.getElementById(id)); // Initialize each video-js player
+  });
+}
+=======
       searchInput.addEventListener("input", () => {
         const q = searchInput.value.toLowerCase();
         const filtered = videos.filter(v => v.title.toLowerCase().includes(q));
         displayVideos(filtered);
       });
     });
+>>>>>>> 19cc5c75138907d4c62a9360b645ad5de8ebbcf7
 
   function displayVideos(videos) {
     gallery.innerHTML = "";

@@ -2,29 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>D'Best Collections</title>
   <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>
-    <h1>D'Best Collections</h1>
-    <input type="text" id="searchInput" placeholder="Search videos..." />
-  </header>
-
-  <main>
-    <aside id="tagCloud">
-      <h2>Tags</h2>
-      <div id="tagFilter"></div>
-    </aside>
-
-    <section id="videoGallery"></section>
-  </main>
-
-  <footer>
-    <p>&copy; 2025 D'Best Collections. All rights reserved.</p>
-  </footer>
+  <h1>D'Best Collections</h1>
+  <input type="text" id="searchInput" placeholder="Search videos..." />
+  <div id="tagFilter" class="tag-cloud"></div>
+  <div id="videoGallery" class="gallery"></div>
 
   <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
   <script src="script.js"></script>
