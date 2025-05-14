@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dynamic HLS Video Gallery</title>
+  <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>Video Gallery</h1>
+
+  <input type="text" id="searchInput" placeholder="Search videos by title..." />
+
+  <div id="tagFilter">
+    <button onclick="filterTag('all')">All</button>
+    <button onclick="filterTag('Math')">Math</button>
+    <button onclick="filterTag('History')">History</button>
+  </div>
+
+  <div id="videoGallery"></div>
+
+  <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
