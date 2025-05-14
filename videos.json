@@ -1,24 +1,16 @@
-
 [
   {
-<<<<<<< HEAD
     "id": "1",
-    "title": "Sample HLS Video",
-    "src": "https://example.com/video.m3u8",
-    "thumbnail": "https://example.com/thumb.jpg",
-    "tags": "math,hls,education"
+    "title": "Sample Video 1",
+    "src": "https://yourdomain.com/videos/video1.m3u8",
+    "thumbnail": "https://yourdomain.com/thumbs/thumb1.jpg",
+    "tags": "math,education"
   },
   {
     "id": "2",
-    "title": "Another Great Video",
-    "src": "https://example.com/another.m3u8",
-    "thumbnail": "https://example.com/another.jpg",
-    "tags": "science,hls"
-=======
-    "title": "Sample HLS Video",
-    "src": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
-    "thumbnail": "https://via.placeholder.com/640x360.png?text=Sample+Thumbnail",
-    "tags": "math,lecture,hls"
->>>>>>> 19cc5c75138907d4c62a9360b645ad5de8ebbcf7
+    "title": "Sample Video 2",
+    "src": "https://yourdomain.com/videos/video2.m3u8",
+    "thumbnail": "https://yourdomain.com/thumbs/thumb2.jpg",
+    "tags": "science,lecture"
   }
 ]

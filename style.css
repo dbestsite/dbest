@@ -1,94 +1,78 @@
-
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #f8f9fa;
+/* General Reset */
+* {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f7f8fa;
   color: #333;
+  padding: 20px;
 }
 
-header {
-  background: #0077cc;
-  color: white;
-  padding: 1rem 2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+/* Site Header */
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 2.5rem;
+  color: #222;
 }
 
-header h1 {
-  margin: 0;
-  font-size: 1.8rem;
-}
-
-#searchInput {
-  padding: 0.5rem;
-  font-size: 1rem;
-  border: none;
-  border-radius: 4px;
-  width: 200px;
-}
-
-main {
-  display: flex;
-  padding: 1rem;
-}
-
-#tagCloud {
-  width: 200px;
-  margin-right: 1rem;
-  background: white;
-  padding: 1rem;
-  border-radius: 8px;
-  box-shadow: 0 0 5px rgba(0,0,0,0.1);
-}
-
-#tagFilter {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 0.5rem;
-}
-
-#tagFilter button {
-  border: none;
-  padding: 6px 10px;
-  font-size: 0.9rem;
-  border-radius: 20px;
-  background-color: #e0e0e0;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-#tagFilter button.active,
-#tagFilter button:hover {
-  background-color: #0077cc;
-  color: white;
-}
-
-#videoGallery {
-  flex-grow: 1;
+/* Gallery Layout */
+.gallery {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  padding: 10px;
 }
 
+/* Video Card Style */
 .video-card {
   background: white;
-  padding: 1rem;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-}
-
-.video-card h3 {
-  margin-top: 0;
-  font-size: 1.1rem;
-}
-
-footer {
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  transition: transform 0.2s ease;
   text-align: center;
-  padding: 1rem;
-  background: #f1f1f1;
-  margin-top: 2rem;
-  font-size: 0.9rem;
+}
+
+.video-card:hover {
+  transform: translateY(-4px);
+}
+
+/* Video Thumbnail */
+.video-card img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Video Title */
+.video-card h3 {
+  font-size: 1rem;
+  padding: 10px;
+  color: #111;
+}
+
+/* Post Page Video Player */
+#videoPlayer {
+  max-width: 100%;
+  margin: 20px auto;
+  display: block;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  h1 {
+    font-size: 2rem;
+  }
+
+  .video-card h3 {
+    font-size: 0.9rem;
+  }
 }
