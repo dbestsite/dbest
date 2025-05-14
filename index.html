@@ -3,28 +3,30 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>D'Best</title>
+  <title>D'Best Collections</title>
   <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
-  <script type='text/javascript' src='//swollenbasis.com/10/24/b0/1024b00b714752a34b3ca526c2508afc.js'></script>
 </head>
 <body>
-  <h1>D'Best Collections</h1>
+  <header>
+    <h1>D'Best Collections</h1>
+    <input type="text" id="searchInput" placeholder="Search videos..." />
+  </header>
 
-  <input type="text" id="searchInput" placeholder="Search videos by title..." />
+  <main>
+    <aside id="tagCloud">
+      <h2>Tags</h2>
+      <div id="tagFilter"></div>
+    </aside>
 
-  <div id="tagFilter">
-    <button onclick="filterTag('all')">All</button>
-    <button onclick="filterTag('Math')">Math</button>
-    <button onclick="filterTag('History')">History</button>
-  </div>
+    <section id="videoGallery"></section>
+  </main>
 
-  <div id="videoGallery"></div>
+  <footer>
+    <p>&copy; 2025 D'Best Collections. All rights reserved.</p>
+  </footer>
 
   <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
   <script src="script.js"></script>
-  <footer>
-    Copyright © 2025 D'Best.
-  </footer>
 </body>
 </html>
