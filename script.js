@@ -26,6 +26,10 @@ function renderVideos(videos) {
       </video-js>
     `;
     container.appendChild(card);
+    // Ensure old instance is removed before re-init
+    if (videojs.getPlayer(id)) {
+      videojs.getPlayer(id).dispose();
+    }
     videojs(id);
   });
 }
