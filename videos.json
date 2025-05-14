@@ -1,14 +1,9 @@
+
 [
   {
-    "title": "New Math Lecture",
-    "tags": "Math, Algebra, Lecture",
+    "title": "Sample HLS Video",
     "src": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
-    "date": "2025-05-14"
-  },
-  {
-    "title": "Philippine History Overview",
-    "tags": "History, Philippines, Culture",
-    "src": "https://mojenne.github.io/hls-test-streams/hls/index.m3u8",
-    "date": "2024-12-01"
+    "thumbnail": "https://via.placeholder.com/640x360.png?text=Sample+Thumbnail",
+    "tags": "math,lecture,hls"
   }
 ]
