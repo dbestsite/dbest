@@ -8,22 +8,26 @@
 </head>
 <body>
   <header>
+  <div class="top-bar">
+    <div id="nav-toggle">&#9776;</div> <!-- Hamburger icon -->
     <h1>D'Best Site</h1>
-    <input type="text" id="search" placeholder="Search videos or tags...">
-  </header>
+    <div id="header-footer">&copy; 2025 D'Best Site</div>
+  </div>
 
-  <aside id="tag-sidebar">
-    <h2>Tags</h2>
-    <div id="tag-cloud"></div>
-  </aside>
+  <div id="tag-cloud-header"></div> <!-- Horizontal tag cloud inside header -->
+</header>
+
+ 
+<aside id="tag-sidebar">
+  <div id="sidebar-close">✖</div> <!-- Close button -->
+  <div id="tag-cloud"></div> <!-- Sidebar tag cloud -->
+</aside>
 
   <main>
-    <div id="video-list"></div>
-  </main>
+  <div id="video-list"></div>
+</main>
 
-  <footer>
-    <p>&copy; 2025 D'Best Site. All rights reserved.</p>
-  </footer>
+
 
   <script>
     let videos = [];
@@ -83,6 +87,20 @@
       );
       renderVideos(filtered);
     });
+
+
+    const navToggle = document.getElementById('nav-toggle');
+const sidebar = document.getElementById('tag-sidebar');
+const sidebarClose = document.getElementById('sidebar-close');
+
+navToggle.addEventListener('click', () => {
+  sidebar.classList.add('open');
+});
+
+sidebarClose.addEventListener('click', () => {
+  sidebar.classList.remove('open');
+});
+
   </script>
 </body>
 </html>
