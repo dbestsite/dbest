@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const gallery = document.getElementById("videoGallery");
 
-  fetch("video.json")
+  fetch("videos.json")
     .then(res => res.json())
     .then(videos => {
       videos.reverse().forEach(video => {
