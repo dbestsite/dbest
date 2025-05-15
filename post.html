@@ -31,7 +31,15 @@
           const container = document.getElementById('videoContainer');
           container.innerHTML = `
             <h2>${video.title}</h2>
-            <video controls style="width: 100%; max-width: 800px;" oncontextmenu="return false;" onmousedown="if(event.which===3) return false;">
+            <video controls
+  controlsList="nodownload"
+  style="width: 100%; max-width: 800px;"
+  oncontextmenu="return false;"
+  onmousedown="if (event.which === 3) return false;"
+  ontouchstart="startTouchTimer(event)"
+  ontouchend="clearTouchTimer()"
+  ontouchcancel="clearTouchTimer()"
+  id="videoPlayer">
               <source src="${video.src}" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
