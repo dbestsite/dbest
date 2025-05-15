@@ -9,24 +9,80 @@
 <body>
   <header>
     <h1>D'Best Site</h1>
-    <input type="text" id="searchInput" placeholder="Search videos by title or tag..." />
+    <input type="text" id="search" placeholder="Search videos or tags...">
   </header>
 
-  <div class="container">
-    <aside>
-      <h2>Tags</h2>
-      <div id="tagCloud"></div>
-    </aside>
+  <aside id="tag-sidebar">
+    <h2>Tags</h2>
+    <div id="tag-cloud"></div>
+  </aside>
 
-    <main>
-      <div id="videoGallery" class="gallery"></div>
-    </main>
-  </div>
+  <main>
+    <div id="video-list"></div>
+  </main>
 
   <footer>
     <p>&copy; 2025 D'Best Site. All rights reserved.</p>
   </footer>
 
-  <script src="script.js"></script>
+  <script>
+    let videos = [];
+
+    fetch('video.json')
+      .then(response => response.json())
+      .then(data => {
+        videos = data.reverse(); // newest first
+        renderVideos(videos);
+        generateTagCloud(videos);
+      });
+
+    function renderVideos(videoList) {
+      const container = document.getElementById('video-list');
+      container.innerHTML = '';
+
+      videoList.forEach((video, index) => {
+        const card = document.createElement('div');
+        card.className = 'video-card';
+
+        card.innerHTML = `
+          <a href="post.html?id=${videos.length - 1 - index}">
+            <img src="${video.thumbnail}" alt="${video.title}" class="thumb" />
+            <h3>${video.title}</h3>
+          </a>
+          <p class="taglist">${video.tags}</p>
+        `;
+
+        container.appendChild(card);
+      });
+    }
+
+    function generateTagCloud(videoList) {
+      const tagSet = new Set();
+      videoList.forEach(video => {
+        video.tags.split(',').map(tag => tag.trim()).forEach(t => tagSet.add(t));
+      });
+
+      const tagCloud = document.getElementById('tag-cloud');
+      tagCloud.innerHTML = '';
+      tagSet.forEach(tag => {
+        const tagEl = document.createElement('span');
+        tagEl.className = 'tag';
+        tagEl.textContent = tag;
+        tagEl.onclick = () => {
+          const filtered = videos.filter(v => v.tags.includes(tag));
+          renderVideos(filtered);
+        };
+        tagCloud.appendChild(tagEl);
+      });
+    }
+
+    document.getElementById('search').addEventListener('input', (e) => {
+      const keyword = e.target.value.toLowerCase();
+      const filtered = videos.filter(v =>
+        v.title.toLowerCase().includes(keyword) || v.tags.toLowerCase().includes(keyword)
+      );
+      renderVideos(filtered);
+    });
+  </script>
 </body>
 </html>
