@@ -2,9 +2,9 @@
   {
     "id": "1",
     "title": "Sample Video 1",
-    "src": "https://yourdomain.com/videos/video1.m3u8",
-    "thumbnail": "https://yourdomain.com/thumbs/thumb1.jpg",
-    "tags": "math,education"
+    "src": "https://files.catbox.moe/npqdzx.mp4",
+    "thumbnail": "",
+    "tags": "funny,AI"
   },
   {
     "id": "2",
