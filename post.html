@@ -2,39 +2,45 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Video</title>
-  <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>D'Best Site - Video</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1 id="videoTitle"></h1>
+  <header>
+    <h1>D'Best Site</h1>
+  </header>
 
-  <video id="videoPlayer" class="video-js" controls preload="auto" width="640" height="360" controlsList="nodownload">
-    <source id="videoSource" src="" type="application/x-mpegURL" />
-  </video>
+  <main style="padding: 1rem">
+    <div id="videoContainer"></div>
+  </main>
 
-  <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
+  <footer>
+    <p>&copy; 2025 D'Best Site. All rights reserved.</p>
+  </footer>
+
   <script>
-    const urlParams = new URLSearchParams(window.location.search);
-    const videoId = urlParams.get("video");
+    const params = new URLSearchParams(window.location.search);
+    const videoId = params.get('id');
 
-    fetch("video.json")
+    fetch('video.json')
       .then(res => res.json())
-      .then(videos => {
-        const video = videos.find(v => v.id === videoId);
-        if (!video) {
-          document.body.innerHTML = "<p>Video not found.</p>";
-          return;
+      .then(data => {
+        const video = data[videoId];
+        if (video) {
+          const container = document.getElementById('videoContainer');
+          container.innerHTML = `
+            <h2>${video.title}</h2>
+            <video controls style="width: 100%; max-width: 800px;" oncontextmenu="return false;" onmousedown="if(event.which===3) return false;">
+              <source src="${video.src}" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+            <p style="margin-top: 1rem; color: #666">Tags: ${video.tags}</p>
+            <a href="index.html" style="display: inline-block; margin-top: 2rem">&larr; Back to Home</a>
+          `;
+        } else {
+          document.getElementById('videoContainer').innerHTML = '<p>Video not found.</p>';
         }
-        document.getElementById("videoTitle").textContent = video.title;
-        document.getElementById("videoSource").src = video.src;
-        const player = videojs("videoPlayer");
-        player.ready(() => {
-          player.src({ type: "application/x-mpegURL", src: video.src });
-          player.el().addEventListener("contextmenu", e => e.preventDefault());
-          player.el().addEventListener("touchstart", e => {
-            if (e.touches.length > 1) e.preventDefault();
-          });
-        });
       });
   </script>
 </body>

@@ -1,16 +1,28 @@
 [
   {
+<<<<<<< HEAD
+    "title": "Beautiful Sunset",
+    "src": "https://example.com/videos/sunset.mp4",
+    "thumbnail": "https://example.com/thumbnails/sunset.jpg",
+    "tags": "nature, sunset, relaxing"
+=======
     "id": "1",
     "title": "Sample Video 1",
     "src": "https://files.catbox.moe/npqdzx.mp4",
     "thumbnail": "",
     "tags": "funny,AI"
+>>>>>>> 0d21616a16eceaf4545c90a1a884b5c2b3f696d0
   },
   {
-    "id": "2",
-    "title": "Sample Video 2",
-    "src": "https://yourdomain.com/videos/video2.m3u8",
-    "thumbnail": "https://yourdomain.com/thumbs/thumb2.jpg",
-    "tags": "science,lecture"
+    "title": "Mountain Hike Adventure",
+    "src": "https://example.com/videos/hike.mp4",
+    "thumbnail": "https://example.com/thumbnails/hike.jpg",
+    "tags": "travel, mountain, hiking, adventure"
+  },
+  {
+    "title": "City Timelapse",
+    "src": "https://example.com/videos/city.mp4",
+    "thumbnail": "https://example.com/thumbnails/city.jpg",
+    "tags": "city, timelapse, urban"
   }
 ]

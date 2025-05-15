@@ -2,13 +2,30 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>D'Best Collections</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>D'Best Site</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>D'Best Collections</h1>
+  <header>
+    <h1>D'Best Site</h1>
+    <input type="text" id="searchInput" placeholder="Search videos by title or tag..." />
+  </header>
 
-  <div id="videoGallery" class="gallery"></div>
+  <div class="container">
+    <aside>
+      <h2>Tags</h2>
+      <div id="tagCloud"></div>
+    </aside>
+
+    <main>
+      <div id="videoGallery" class="gallery"></div>
+    </main>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 D'Best Site. All rights reserved.</p>
+  </footer>
 
   <script src="script.js"></script>
 </body>
