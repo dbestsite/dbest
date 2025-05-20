@@ -38,9 +38,9 @@ const videosPerPage = 9;
 
 
 let isSinglePost = false;
-const file = "\x76\x69\x64\x65\x6F\x73\x2E\x6A\x73\x6F\x6E"; // Path to your JSON file
 
-fetch(file)
+
+fetch(videos.json)
   .then(res => res.json())
   .then(data => {
     videoData = data;
