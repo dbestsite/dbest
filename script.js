@@ -1,64 +1,272 @@
-let videos = [];
-let allTags = new Set();
+// script.js
+import { setupFooterPopup } from './footer.js';
+document.addEventListener("DOMContentLoaded", () => {
+  setupFooterPopup();
+});
 
-fetch('video.json')
+import { setupRatingSystem } from './rating.js';
+import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+
+// Firebase config
+const firebaseConfig = {
+  apiKey: "AIzaSyDWqWfKWRY7nxZTIXxgV1j_baHY0m8F_Ng",
+  authDomain: "dbest-rating.firebaseapp.com",
+  databaseURL: "https://dbest-rating-default-rtdb.firebaseio.com",
+  projectId: "dbest-rating",
+  storageBucket: "dbest-rating.appspot.com",
+  messagingSenderId: "951177510571",
+  appId: "1:951177510571:web:8e5917a62e3443e1dbc1ee",
+  measurementId: "G-9DSK5WTW62"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+const videoContainer = document.getElementById("video-container");
+const searchInput = document.getElementById("search");
+const tagFilter = document.getElementById("tag-filter");
+const pagination = document.getElementById("pagination");
+
+let videoData = [];
+let filteredData = [];
+let selectedTags = new Set();
+let currentPage = 1;
+let pageGroupOffset = 0;
+const pagesPerGroup = 5;
+const videosPerPage = 9;
+
+
+let isSinglePost = false;
+const file = "\x76\x69\x64\x65\x6F\x73\x2E\x6A\x73\x6F\x6E"; // Path to your JSON file
+
+fetch(file)
   .then(res => res.json())
   .then(data => {
-    videos = data;
-    extractTags();
-    renderTags();
-    renderVideos(videos);
+    videoData = data;
+    const path = window.location.pathname.replace('/', '').split('?')[0];
+    isSinglePost = path && path !== "index.html";
+
+    if (isSinglePost) {
+      filterByPostId(path);  // A function you'll need for single post view
+      pagination.innerHTML = ""; // Clear pagination for single post view
+    } else {
+      filteredData = data; // Filtered videos for home page
+      renderVideos();
+      renderPagination();
+      initFilters();
+    }
   });
 
-function extractTags() {
-  videos.forEach(video => {
-    if (video.tags) {
-      video.tags.split(',').forEach(tag => allTags.add(tag.trim()));
+function initFilters() {
+  const allTags = [
+  ...new Set(
+    videoData.flatMap(v =>
+      Array.isArray(v.tags)
+        ? v.tags
+        : v.tags.split(',').map(t => t.trim())
+    )
+  )
+];
+
+  allTags.forEach(tag => {
+    const btn = document.createElement("button");
+    btn.textContent = tag;
+    btn.onclick = () => {
+      if (selectedTags.has(tag)) {
+        selectedTags.delete(tag);
+        btn.classList.remove("active");
+      } else {
+        selectedTags.add(tag);
+        btn.classList.add("active");
+      }
+      applyFilters();
+    };
+    tagFilter.appendChild(btn);
+  });
+
+  searchInput.addEventListener("input", applyFilters);
+}
+
+function applyTagFilter(tag) {
+  if (selectedTags.has(tag)) {
+    selectedTags.delete(tag);
+  } else {
+    selectedTags.clear();
+    selectedTags.add(tag);
+  }
+  applyFilters();
+  highlightCustomTagButtons();
+}
+window.applyTagFilter = applyTagFilter;
+
+function highlightCustomTagButtons() {
+  document.querySelectorAll('#custom-tag button').forEach(btn => {
+    const tag = btn.textContent.toLowerCase().includes("short") ? "shortvids" : "fullvids";
+    if (selectedTags.has(tag)) {
+      btn.classList.add("active");
+    } else {
+      btn.classList.remove("active");
     }
   });
 }
 
-function renderTags() {
-  const tagCloud = document.getElementById('tagCloud');
-  tagCloud.innerHTML = '';
-  allTags.forEach(tag => {
-    const tagEl = document.createElement('span');
-    tagEl.textContent = tag;
-    tagEl.onclick = () => filterByTag(tag);
-    tagCloud.appendChild(tagEl);
-  });
+function applyFilters() {
+  const term = searchInput.value.toLowerCase();
+  const selected = [...selectedTags];
+  filteredData = videoData.filter(v =>
+    v.title.toLowerCase().includes(term) &&
+    (selected.length === 0 || selected.every(tag => v.tags.includes(tag)))
+  );
+  currentPage = 1;
+  renderPagination();
+  renderVideos();
 }
 
-function renderVideos(list) {
-  const gallery = document.getElementById('videoGallery');
-  gallery.innerHTML = '';
-  list.forEach(video => {
-    const card = document.createElement('div');
-    card.className = 'video-card';
+function renderPagination() {
+  pagination.innerHTML = "";
+
+  const totalPages = Math.ceil(filteredData.length / videosPerPage);
+  const groupStart = pageGroupOffset * pagesPerGroup + 1;
+  const groupEnd = Math.min(groupStart + pagesPerGroup - 1, totalPages);
+
+  // Prev group button
+  if (pageGroupOffset > 0) {
+    const prevBtn = document.createElement("button");
+    prevBtn.textContent = "« Prev";
+    prevBtn.onclick = () => {
+      pageGroupOffset--;
+      renderPagination();
+    };
+    pagination.appendChild(prevBtn);
+  }
+
+  // Page number buttons
+  for (let i = groupStart; i <= groupEnd; i++) {
+    const btn = document.createElement("button");
+    btn.textContent = i;
+    btn.className = i === currentPage ? "active" : "";
+    btn.onclick = () => {
+      currentPage = i;
+      renderVideos();
+      renderPagination();
+    };
+    pagination.appendChild(btn);
+  }
+
+  // Next group button
+  if (groupEnd < totalPages) {
+    const nextBtn = document.createElement("button");
+    nextBtn.textContent = "Next »";
+    nextBtn.onclick = () => {
+      pageGroupOffset++;
+      renderPagination();
+    };
+    pagination.appendChild(nextBtn);
+  }
+}
+
+function renderVideos() {
+  videoContainer.innerHTML = "";
+
+  const path = window.location.pathname.replace('/', '').split('?')[0];
+  const isSinglePost = path && path !== "index.html";
+
+  const start = (currentPage - 1) * videosPerPage;
+  const end = start + videosPerPage;
+  const pageVideos = filteredData.slice(start, end);
+
+  // Add a "Back" button for single video view
+  if (filteredData.length === 1) {
+    const backButton = document.createElement("button");
+    backButton.textContent = "Back to All Videos";
+    backButton.onclick = () => {
+      history.pushState({}, "", `/post.html?uId=${uid}`);
+      filteredData = videoData;
+      currentPage = 1;
+      renderVideos();
+      renderPagination();
+    };
+    videoContainer.appendChild(backButton);
+  }
+
+  pageVideos.forEach(video => {
+    const card = document.createElement("div");
+    card.className = "video-card";
+
+    const tagsArray = Array.isArray(video.tags)
+      ? video.tags
+      : video.tags.split(',').map(t => t.trim());
+
     card.innerHTML = `
-      <img src="${video.thumbnail}" alt="${video.title}" />
       <h3>${video.title}</h3>
-      <video controls preload="none" width="100%" style="margin-top:10px" oncontextmenu="return false;" onmousedown="if(event.which===3) return false;">
-        <source src="${video.src}" type="video/mp4">
-        Your browser does not support the video tag.
-      </video>
+      <video src="${video.url}" controls playsinline controlsList="nodownload" muted></video>
+      <div class="tags">${tagsArray.map(t => `<span>#${t}</span>`).join(' ')}</div>
+      <div class="rating-box" id="rating-${video.postId}">Loading rating...</div>
     `;
-    gallery.appendChild(card);
+
+    // Click event to go to single post page using uniqueId
+    if (!isSinglePost) {
+      const wall = document.createElement("a");
+      wall.className = "video-wall";
+      wall.href = `post.html?uId=${video.uniqueId}`;
+      wall.style.display = "block";
+      wall.style.position = "absolute";
+      wall.style.top = "0";
+      wall.style.left = "0";
+      wall.style.width = "100%";
+      wall.style.height = "100%";
+      wall.style.zIndex = "2";
+      card.appendChild(wall);
+    }
+
+    videoContainer.appendChild(card);
+
+    const videoEl = card.querySelector("video");
+    videoEl.addEventListener("loadedmetadata", () => {
+      videoEl.currentTime = video.start || 1;
+    });
+
+    setupRatingSystem(video.postId); // Ratings should be using postId
   });
 }
 
-function filterByTag(tag) {
-  const filtered = videos.filter(video =>
-    video.tags.toLowerCase().includes(tag.toLowerCase())
-  );
-  renderVideos(filtered);
+
+
+document.addEventListener("contextmenu", e => e.preventDefault());
+
+function checkVideoVisibility() {
+  document.querySelectorAll("video").forEach(video => {
+    const rect = video.getBoundingClientRect();
+    const videoHeight = rect.height;
+    const scrolledOut = rect.bottom < window.innerHeight - (videoHeight * 0.2);
+    if (scrolledOut && !video.paused) {
+      video.pause();
+    }
+  });
+}
+window.addEventListener("scroll", checkVideoVisibility);
+
+function filterByUniqueId(uid) {
+  const match = videoData.find(v => v.uniqueId === uid);
+  filteredData = match ? [match] : [];
+  currentPage = 1;
+  renderVideos();
 }
 
-document.getElementById('searchInput').addEventListener('input', e => {
-  const term = e.target.value.toLowerCase();
-  const filtered = videos.filter(video =>
-    video.title.toLowerCase().includes(term) ||
-    video.tags.toLowerCase().includes(term)
-  );
-  renderVideos(filtered);
+// Enable back/forward browser navigation
+window.addEventListener("popstate", () => {
+  const params = new URLSearchParams(window.location.search);
+  const uniqueId = params.get("uId");
+
+  if (uniqueId && location.pathname.includes("post.html")) {
+    // In post view: reload to re-render that video
+    location.reload();
+  } else {
+    // Back to home or index
+    filteredData = videoData;
+    currentPage = 1;
+    renderVideos();
+    renderPagination();
+  }
 });

@@ -1,106 +1,83 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>D'Best Site</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="robots" content="index, follow">
+  <meta name="description" content="Adult site for gay and solo videos">
+  <meta name="google-site-verification" content="_TGVuwOPmCL6zwKW3VtNo_Vec59EPjDb6lfetVjju-w" />
+  <title>D' Best Site</title>
+
+  <link rel="icon" type="image/png" href="favicon.png">
   <link rel="stylesheet" href="style.css" />
+  <!-- your other scripts, styles, etc. -->
+  <script type="module" src="rating.js"></script>
+ 
 </head>
 <body>
-  <header>
-  <div class="top-bar">
-    <div id="nav-toggle">&#9776;</div> <!-- Hamburger icon -->
-    <h1>D'Best Site</h1>
-    <div id="header-footer">&copy; 2025 D'Best Site</div>
+  <header class="header">
+                                                                         
+  <div class="header-content">
+    <h1 id="site-title" class="site-title">
+    <img class="site-logo" src="https://dbestsite.netlify.app/favicon.png"/>
+      <a href="https://dbestsite.netlify.app/" style="text-decoration: none; color: inherit;">D' Best Site</a>
+    </h1>
+    <input type="text" id="search" placeholder="Search videos...">
+    <div id="custom-tag" class="custom-tag">
+      <button onclick="applyTagFilter('shortvids')">Short Videos</button>
+      <button onclick="applyTagFilter('fullvids')">Long Videos</button>
+    </div>
   </div>
-
-  <div id="tag-cloud-header"></div> <!-- Horizontal tag cloud inside header -->
 </header>
-
- 
-<aside id="tag-sidebar">
-  <div id="sidebar-close">✖</div> <!-- Close button -->
-  <div id="tag-cloud"></div> <!-- Sidebar tag cloud -->
-</aside>
-
+  
   <main>
-  <div id="video-list"></div>
-</main>
+    <div class="adgrid">
+      <div id="ad1"></div><div id="ad2"></div><div id="pcad1"></div><div id="pcad2"></div>
+    </div><div id="video-container" class="grid"></div>
+
+<div class="adgrid">
+  <div id="ad3"></div><div id="ad4"></div><div id="pcad3"></div><div id="pcad4"></div>
+</div>
+
+<div id="pagination" class="pagination-controls"></div>
 
 
-
-  <script>
-    let videos = [];
-
-    fetch('video.json')
-      .then(response => response.json())
-      .then(data => {
-        videos = data.reverse(); // newest first
-        renderVideos(videos);
-        generateTagCloud(videos);
-      });
-
-    function renderVideos(videoList) {
-      const container = document.getElementById('video-list');
-      container.innerHTML = '';
-
-      videoList.forEach((video, index) => {
-        const card = document.createElement('div');
-        card.className = 'video-card';
-
-        card.innerHTML = `
-          <a href="post.html?id=${videos.length - 1 - index}">
-            <img src="${video.thumbnail}" alt="${video.title}" class="thumb" />
-            <h3>${video.title}</h3>
-          </a>
-          <p class="taglist">${video.tags}</p>
-        `;
-
-        container.appendChild(card);
-      });
-    }
-
-    function generateTagCloud(videoList) {
-      const tagSet = new Set();
-      videoList.forEach(video => {
-        video.tags.split(',').map(tag => tag.trim()).forEach(t => tagSet.add(t));
-      });
-
-      const tagCloud = document.getElementById('tag-cloud');
-      tagCloud.innerHTML = '';
-      tagSet.forEach(tag => {
-        const tagEl = document.createElement('span');
-        tagEl.className = 'tag';
-        tagEl.textContent = tag;
-        tagEl.onclick = () => {
-          const filtered = videos.filter(v => v.tags.includes(tag));
-          renderVideos(filtered);
-        };
-        tagCloud.appendChild(tagEl);
-      });
-    }
-
-    document.getElementById('search').addEventListener('input', (e) => {
-      const keyword = e.target.value.toLowerCase();
-      const filtered = videos.filter(v =>
-        v.title.toLowerCase().includes(keyword) || v.tags.toLowerCase().includes(keyword)
-      );
-      renderVideos(filtered);
-    });
+  </main>  <footer style="background-color:#121917; color:#b8f1d9; padding:20px 10px; text-align:center; font-family: Arial, sans-serif; font-size: 0.9rem; margin-top: 40px;">
+    <p>© 2025 D' Best Site. All rights reserved.</p>
+    <p>
+      <a href="#" style="color:#b8f1d9; text-decoration:none; margin: 0 10px;">Privacy Policy</a> |
+      <a href="#" style="color:#b8f1d9; text-decoration:none; margin: 0 10px;">About Us</a> |
+      <a href="#" style="color:#b8f1d9; text-decoration:none; margin: 0 10px;">Contact</a>
+    </p>
+  </footer>
+  <H3 style="text-align: center;">Tags:</H3>
+  <div id="tag-filter" class="tag-filter"></div>
 
 
-    const navToggle = document.getElementById('nav-toggle');
-const sidebar = document.getElementById('tag-sidebar');
-const sidebarClose = document.getElementById('sidebar-close');
-
-navToggle.addEventListener('click', () => {
-  sidebar.classList.add('open');
-});
-
-sidebarClose.addEventListener('click', () => {
-  sidebar.classList.remove('open');
-});
-
+  
+  <script type="module">
+  import { insertBannerAd } from './adBanner.js';
+   document.addEventListener("DOMContentLoaded", () => {
+    const adIds = ['ad1', 'ad2', 'ad3', 'ad4'];
+    adIds.forEach(id => insertBannerAd(id));
+   });
   </script>
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const scrollTriggerClasses = [".custom-tag", ".site-title", ".pagination-controls", ".tag-filter",".post-link"]; // Add more selectors as needed
+
+    document.body.addEventListener("click", function (e) {
+      const clickedEl = e.target.closest(scrollTriggerClasses.join(", "));
+      if (clickedEl) {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    });
+  });
+</script>
+  
+<script type="module" src="adBanner.js"></script>
+<script type="module" src="pcAds.js"></script>
+<script type="module" src="footer.js"></script>
+<script type="module" src="script.js"></script>
+
 </body>
 </html>
