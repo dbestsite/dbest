@@ -39,25 +39,30 @@ const videosPerPage = 9;
 
 let isSinglePost = false;
 
-
 fetch('./videos.json')  // Ensure it's correctly placed in your project
-  .then(res => res.json())
+  .then(res => {
+    if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
+    return res.json();
+  })
   .then(data => {
+    console.log("Video data fetched successfully:", data); // Debugging log
     videoData = data;
+    
     const path = window.location.pathname.replace('/', '').split('?')[0];
     isSinglePost = path && path !== "index.html";
 
     if (isSinglePost) {
-      filterByPostId(path);  // A function you'll need for single post view
+      filterByPostId(path);  // Ensure this function exists
       pagination.innerHTML = ""; // Clear pagination for single post view
     } else {
-      filteredData = data; // Filtered videos for home page
-      renderVideos();
-      renderPagination();
-      initFilters();
+      filteredData = videoData; // Store filtered videos for the homepage
+      renderVideos();  // Ensure rendering works
+      renderPagination();  // Pagination setup
+      initFilters();  // Initialize tag filters
     }
   })
-   .catch(error => console.error("Error fetching videos.json:", error));
+  .catch(error => console.error("Error fetching videos.json:", error));
+
   
 
 function initFilters() {
