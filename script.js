@@ -40,7 +40,7 @@ const videosPerPage = 9;
 let isSinglePost = false;
 
 
-fetch('/videos.json')  // Ensure it's correctly placed in your project
+fetch('./videos.json')  // Ensure it's correctly placed in your project
   .then(res => res.json())
   .then(data => {
     videoData = data;
