@@ -40,7 +40,7 @@ const videosPerPage = 9;
 let isSinglePost = false;
 
 
-fetch(videos.json)
+fetch('/videos.json')  // Ensure it's correctly placed in your project
   .then(res => res.json())
   .then(data => {
     videoData = data;
@@ -56,7 +56,9 @@ fetch(videos.json)
       renderPagination();
       initFilters();
     }
-  });
+  })
+   .catch(error => console.error("Error fetching videos.json:", error));
+  ;
 
 function initFilters() {
   const allTags = [
