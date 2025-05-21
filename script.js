@@ -277,3 +277,13 @@ window.addEventListener("popstate", () => {
     renderPagination();
   }
 });
+
+function verifyAge(isOldEnough) {
+    if (isOldEnough) {
+        document.getElementById("age-gate").style.display = "none";
+    } else {
+        alert("Sorry, you are not old enough to access this site.");
+        window.location.href = "https://www.google.com"; // Redirects younger users
+    }
+}
+
