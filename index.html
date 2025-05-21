@@ -61,37 +61,31 @@
 </div>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
+ document.addEventListener("DOMContentLoaded", function () {
+    const ageGate = document.getElementById("age-gate");
+
+    // If age is not verified, block interactions with the page
     if (!localStorage.getItem("ageVerified")) {
-        document.getElementById("age-gate").style.display = "block";
+        ageGate.style.display = "block";
+        document.body.style.overflow = "hidden"; // Prevent scrolling
     } else {
-        document.getElementById("age-gate").style.display = "none";
+        ageGate.style.display = "none";
+        document.body.style.overflow = "auto"; // Restore scrolling
     }
+
+    // Age verification function
+    window.verifyAge = function (isOldEnough) {
+        if (isOldEnough) {
+            localStorage.setItem("ageVerified", "true");
+            ageGate.style.display = "none";
+            document.body.style.overflow = "auto"; // Allow scrolling again
+        } else {
+            alert("Sorry, you are not old enough to access this site.");
+            window.location.href = "https://www.google.com";
+        }
+    };
 });
 
-function verifyAge(isOldEnough) {
-    if (isOldEnough) {
-        localStorage.setItem("ageVerified", "true");
-        document.getElementById("age-gate").style.display = "none";
-    } else {
-        alert("Sorry, you are not old enough to access this site.");
-        window.location.href = "https://www.google.com";
-    }
-}
-
-</script>
-
-  <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const scrollTriggerClasses = [".custom-tag", ".site-title", ".pagination-controls", ".tag-filter",".post-link"]; // Add more selectors as needed
-
-    document.body.addEventListener("click", function (e) {
-      const clickedEl = e.target.closest(scrollTriggerClasses.join(", "));
-      if (clickedEl) {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      }
-    });
-  });
 </script>
   
 
