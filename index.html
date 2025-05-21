@@ -69,12 +69,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const ageGate = document.getElementById("age-gate");
     const lastVerified = localStorage.getItem("lastVerified");
 
-    // Check if user opted to remember their answer for 24 hours
+    // Check if the user verified their age and if the 24 hours have passed
     if (lastVerified && Date.now() - parseInt(lastVerified) < 86400000) {
-        ageGate.style.display = "none";
+        ageGate.style.display = "none"; // Hide the form
         document.body.style.overflow = "auto"; // Allow scrolling
     } else {
-        ageGate.style.display = "block";
+        ageGate.style.display = "block"; // Show the form
         document.body.style.overflow = "hidden"; // Prevent scrolling
     }
 
@@ -82,9 +82,9 @@ document.addEventListener("DOMContentLoaded", function () {
     window.verifyAge = function (isOldEnough) {
         if (isOldEnough) {
             if (document.getElementById("remember-choice").checked) {
-                localStorage.setItem("lastVerified", Date.now());
+                localStorage.setItem("lastVerified", Date.now()); // Store answer for 24 hours
             } else {
-                localStorage.removeItem("lastVerified");
+                localStorage.removeItem("lastVerified"); // Ask again after closing the site
             }
             ageGate.style.display = "none";
             document.body.style.overflow = "auto"; // Restore scrolling
@@ -94,6 +94,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     };
 });
+
 </script>
   
 
