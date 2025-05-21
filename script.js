@@ -58,7 +58,7 @@ fetch('./videos.json')  // Ensure it's correctly placed in your project
     }
   })
    .catch(error => console.error("Error fetching videos.json:", error));
-  ;
+  
 
 function initFilters() {
   const allTags = [
