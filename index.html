@@ -53,7 +53,14 @@
   <div id="tag-filter" class="tag-filter"></div>
 
 
-  
+  <div id="age-gate">
+    <h2>Age Verification</h2>
+    <p>You must be at least 18 years old to enter this site.</p>
+    <button onclick="verifyAge(true)">I am 18 or older</button>
+    <button onclick="verifyAge(false)">I am under 18</button>
+</div>
+
+<script src="script.js"></script>
 
   <script>
   document.addEventListener("DOMContentLoaded", function () {
