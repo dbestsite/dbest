@@ -1,3 +1,35 @@
+document.addEventListener("DOMContentLoaded", function () {
+    const ageGate = document.getElementById("age-gate");
+    const lastVerified = localStorage.getItem("lastVerified");
+
+    // Check if user has verified and if 24 hours have passed
+    if (lastVerified && Date.now() - parseInt(lastVerified) < 86400000) {
+        ageGate.style.display = "none"; // Hide age check
+        document.body.style.overflow = "auto"; // Enable scrolling
+    } else {
+        ageGate.style.display = "block"; // Show form
+        document.body.style.overflow = "hidden"; // Disable scrolling
+    }
+
+    // Age verification function
+    window.verifyAge = function (isOldEnough) {
+        if (isOldEnough) {
+            if (document.getElementById("remember-choice").checked) {
+                localStorage.setItem("lastVerified", Date.now()); // Store answer for 24 hours
+            } else {
+                localStorage.removeItem("lastVerified"); // Ask again after site closure
+            }
+            ageGate.style.display = "none";
+            document.body.style.overflow = "auto"; // Restore scrolling
+        } else {
+            alert("Sorry, you are not old enough to access this site.");
+            window.location.href = "https://www.google.com";
+        }
+    };
+});
+
+
+
 // script.js
 import { setupFooterPopup } from './footer.js';
 document.addEventListener("DOMContentLoaded", () => {
