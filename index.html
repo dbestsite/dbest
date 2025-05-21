@@ -61,11 +61,14 @@
 </div>
 
 <script>
- document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () {
     const ageGate = document.getElementById("age-gate");
+    const lastVerified = localStorage.getItem("lastVerified");
 
-    // If age is not verified, block interactions with the page
-    if (!localStorage.getItem("ageVerified")) {
+    // Check if the user verified their age today
+    const today = new Date().toISOString().split("T")[0];
+
+    if (lastVerified !== today) {
         ageGate.style.display = "block";
         document.body.style.overflow = "hidden"; // Prevent scrolling
     } else {
@@ -76,7 +79,7 @@
     // Age verification function
     window.verifyAge = function (isOldEnough) {
         if (isOldEnough) {
-            localStorage.setItem("ageVerified", "true");
+            localStorage.setItem("lastVerified", today);
             ageGate.style.display = "none";
             document.body.style.overflow = "auto"; // Allow scrolling again
         } else {
@@ -85,7 +88,6 @@
         }
     };
 });
-
 </script>
   
 
