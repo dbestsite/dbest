@@ -53,35 +53,41 @@
   <div id="tag-filter" class="tag-filter"></div>
 
 
-  <div id="age-gate">
+ <div id="age-gate">
     <h2>Age Verification</h2>
     <p>You must be at least 18 years old to enter this site.</p>
+    <label>
+        <input type="checkbox" id="remember-choice">
+        Remember my answer for 24 hours
+    </label>
+    <br>
     <button onclick="verifyAge(true)">I am 18 or older</button>
     <button onclick="verifyAge(false)">I am under 18</button>
 </div>
-
 <script>
 document.addEventListener("DOMContentLoaded", function () {
     const ageGate = document.getElementById("age-gate");
     const lastVerified = localStorage.getItem("lastVerified");
 
-    // Check if the user verified their age today
-    const today = new Date().toISOString().split("T")[0];
-
-    if (lastVerified !== today) {
+    // Check if user opted to remember their answer for 24 hours
+    if (lastVerified && Date.now() - parseInt(lastVerified) < 86400000) {
+        ageGate.style.display = "none";
+        document.body.style.overflow = "auto"; // Allow scrolling
+    } else {
         ageGate.style.display = "block";
         document.body.style.overflow = "hidden"; // Prevent scrolling
-    } else {
-        ageGate.style.display = "none";
-        document.body.style.overflow = "auto"; // Restore scrolling
     }
 
     // Age verification function
     window.verifyAge = function (isOldEnough) {
         if (isOldEnough) {
-            localStorage.setItem("lastVerified", today);
+            if (document.getElementById("remember-choice").checked) {
+                localStorage.setItem("lastVerified", Date.now());
+            } else {
+                localStorage.removeItem("lastVerified");
+            }
             ageGate.style.display = "none";
-            document.body.style.overflow = "auto"; // Allow scrolling again
+            document.body.style.overflow = "auto"; // Restore scrolling
         } else {
             alert("Sorry, you are not old enough to access this site.");
             window.location.href = "https://www.google.com";
