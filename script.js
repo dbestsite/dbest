@@ -278,21 +278,3 @@ window.addEventListener("popstate", () => {
   }
 });
 
-document.addEventListener("DOMContentLoaded", function () {
-    if (!localStorage.getItem("ageVerified")) {
-        document.getElementById("age-gate").style.display = "block";
-    } else {
-        document.getElementById("age-gate").style.display = "none";
-    }
-});
-
-function verifyAge(isOldEnough) {
-    if (isOldEnough) {
-        localStorage.setItem("ageVerified", "true");
-        document.getElementById("age-gate").style.display = "none";
-    } else {
-        alert("Sorry, you are not old enough to access this site.");
-        window.location.href = "https://www.google.com";
-    }
-}
-
